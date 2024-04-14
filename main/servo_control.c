@@ -73,8 +73,8 @@ void servo_control_task_handler(void *parameters)
     ESP_ERROR_CHECK(mcpwm_timer_enable(timer));
     ESP_ERROR_CHECK(mcpwm_timer_start_stop(timer, MCPWM_TIMER_START_NO_STOP));
 
-    int angle = 0;
-    int step = 5;
+    // int angle = 0;
+    // int step = 5;
     while (1) {
         // ESP_LOGI(TAG, "Angle of rotation: %d", angle);
         // ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(comparator, example_angle_to_compare(angle)));
@@ -88,7 +88,13 @@ void servo_control_task_handler(void *parameters)
         uint8_t bt_data[2];
 
         xQueueReceive(bt_cmd_queue, bt_data, portMAX_DELAY);
-        ESP_LOGI(TAG, "x-coord: %x", bt_data[0]);
+        int8_t x_deg = (int8_t) bt_data[1] - TRACKPAD_WIDTH / 2;
+        x_deg = SERVO_MAX_DEGREE * ((float) x_deg / TRACKPAD_WIDTH * 2) *-1;
+
+        ESP_LOGI(TAG, "x angle: %d", x_deg);
+        
+        ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(comparator, example_angle_to_compare(x_deg)));
+        vTaskDelay(pdMS_TO_TICKS(150));
         
     }
 }
