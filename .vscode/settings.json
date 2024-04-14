@@ -18,6 +18,24 @@
         "cstdint": "c",
         "esp_log.h": "c",
         "task.h": "c",
-        "mcpwm_prelude.h": "c"
-    }
+        "mcpwm_prelude.h": "c",
+        "main.h": "c",
+        "atomic": "c",
+        "*.tcc": "c",
+        "bitset": "c",
+        "chrono": "c",
+        "random": "c",
+        "format": "c",
+        "fstream": "c",
+        "functional": "c",
+        "istream": "c",
+        "optional": "c",
+        "regex": "c",
+        "tuple": "c",
+        "type_traits": "c",
+        "variant": "c",
+        "freertos.h": "c"
+    },
+    "idf.portWin": "COM4",
+    "idf.flashType": "UART"
 }

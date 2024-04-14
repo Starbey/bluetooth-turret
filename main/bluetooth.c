@@ -4,24 +4,7 @@
  * SPDX-License-Identifier: Unlicense OR CC0-1.0
  */
 
-#include <stdint.h>
-#include <string.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <inttypes.h>
-#include "nvs.h"
-#include "nvs_flash.h"
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
-#include "esp_log.h"
-#include "esp_bt.h"
-#include "esp_bt_main.h"
-#include "esp_gap_bt_api.h"
-#include "esp_bt_device.h"
-#include "esp_spp_api.h"
-
-#include "time.h"
-#include "sys/time.h"
+#include "main.h"
 
 #define SPP_TAG "SPP_ACCEPTOR_DEMO"
 #define SPP_SERVER_NAME "SPP_SERVER"
@@ -111,6 +94,7 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param)
                  param->data_ind.len, param->data_ind.handle);
         if (param->data_ind.len < 128) {
             esp_log_buffer_hex("", param->data_ind.data, param->data_ind.len);
+            xQueueSendFromISR(bt_cmd_queue, param->data_ind.data, NULL);
         }
 #else
         gettimeofday(&time_new, NULL);
@@ -200,7 +184,7 @@ void esp_bt_gap_cb(esp_bt_gap_cb_event_t event, esp_bt_gap_cb_param_t *param)
     return;
 }
 
-void app_main(void)
+void bt_init(void)
 {
     char bda_str[18] = {0};
     esp_err_t ret = nvs_flash_init();

@@ -4,12 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
-#include "esp_log.h"
-#include "driver/mcpwm_prelude.h"
+#include "main.h"
 
-static const char *TAG = "example";
+static const char *TAG = "servo_control";
 
 // Please consult the datasheet of your servo before changing the following parameters
 #define SERVO_MIN_PULSEWIDTH_US 500  // Minimum pulse width in microsecond
@@ -26,7 +23,7 @@ static inline uint32_t example_angle_to_compare(int angle)
     return (angle - SERVO_MIN_DEGREE) * (SERVO_MAX_PULSEWIDTH_US - SERVO_MIN_PULSEWIDTH_US) / (SERVO_MAX_DEGREE - SERVO_MIN_DEGREE) + SERVO_MIN_PULSEWIDTH_US;
 }
 
-void app_main(void)
+void servo_control_task_handler(void *parameters)
 {
     ESP_LOGI(TAG, "Create timer and operator");
     mcpwm_timer_handle_t timer = NULL;
@@ -79,13 +76,19 @@ void app_main(void)
     int angle = 0;
     int step = 5;
     while (1) {
-        ESP_LOGI(TAG, "Angle of rotation: %d", angle);
-        ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(comparator, example_angle_to_compare(angle)));
-        //Add delay, since it takes time for servo to rotate, usually 200ms/60degree rotation under 5V power supply
-        vTaskDelay(pdMS_TO_TICKS(50));
-        if ((angle + step) > 60 || (angle + step) < -60) {
-            step *= -1;
-        }
-        angle += step;
+        // ESP_LOGI(TAG, "Angle of rotation: %d", angle);
+        // ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(comparator, example_angle_to_compare(angle)));
+        // //Add delay, since it takes time for servo to rotate, usually 200ms/60degree rotation under 5V power supply
+        // vTaskDelay(pdMS_TO_TICKS(50));
+        // if ((angle + step) > 60 || (angle + step) < -60) {
+        //     step *= -1;
+        // }
+        // angle += step;
+
+        uint8_t bt_data[2];
+
+        xQueueReceive(bt_cmd_queue, bt_data, portMAX_DELAY);
+        ESP_LOGI(TAG, "x-coord: %x", bt_data[0]);
+        
     }
 }
