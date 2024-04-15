@@ -94,7 +94,7 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param)
                  param->data_ind.len, param->data_ind.handle);
         if (param->data_ind.len < 128) {
             esp_log_buffer_hex("", param->data_ind.data, param->data_ind.len);
-            xQueueSendFromISR(bt_cmd_queue, param->data_ind.data, NULL);
+            xQueueSendFromISR(bt_move_queue, param->data_ind.data, NULL);
         }
 #else
         gettimeofday(&time_new, NULL);

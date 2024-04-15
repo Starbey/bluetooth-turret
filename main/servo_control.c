@@ -8,7 +8,6 @@
 
 static const char *TAG = "servo_control";
 
-// Please consult the datasheet of your servo before changing the following parameters
 #define SERVO_MIN_PULSEWIDTH_US 500  // Minimum pulse width in microsecond
 #define SERVO_MAX_PULSEWIDTH_US 2500  // Maximum pulse width in microsecond
 #define SERVO_MIN_DEGREE        -90   // Minimum angle
@@ -21,6 +20,10 @@ static const char *TAG = "servo_control";
 static inline uint32_t example_angle_to_compare(int angle)
 {
     return (angle - SERVO_MIN_DEGREE) * (SERVO_MAX_PULSEWIDTH_US - SERVO_MIN_PULSEWIDTH_US) / (SERVO_MAX_DEGREE - SERVO_MIN_DEGREE) + SERVO_MIN_PULSEWIDTH_US;
+}
+
+static int get_delay(int deg, int prev_deg) {
+    return (int) ( (float) abs(deg - prev_deg) / 60  * 250 );
 }
 
 void servo_control_task_handler(void *parameters)
@@ -73,28 +76,26 @@ void servo_control_task_handler(void *parameters)
     ESP_ERROR_CHECK(mcpwm_timer_enable(timer));
     ESP_ERROR_CHECK(mcpwm_timer_start_stop(timer, MCPWM_TIMER_START_NO_STOP));
 
-    // int angle = 0;
-    // int step = 5;
+    int8_t x_deg = 0;
+
     while (1) {
-        // ESP_LOGI(TAG, "Angle of rotation: %d", angle);
-        // ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(comparator, example_angle_to_compare(angle)));
-        // //Add delay, since it takes time for servo to rotate, usually 200ms/60degree rotation under 5V power supply
-        // vTaskDelay(pdMS_TO_TICKS(50));
-        // if ((angle + step) > 60 || (angle + step) < -60) {
-        //     step *= -1;
-        // }
-        // angle += step;
-
         uint8_t bt_data[2];
+        int8_t prev_x_deg = x_deg;
 
-        xQueueReceive(bt_cmd_queue, bt_data, portMAX_DELAY);
-        int8_t x_deg = (int8_t) bt_data[1] - TRACKPAD_WIDTH / 2;
-        x_deg = SERVO_MAX_DEGREE * ((float) x_deg / TRACKPAD_WIDTH * 2) *-1;
+        xQueueReceive(bt_move_queue, bt_data, portMAX_DELAY);
+        x_deg = (int8_t) bt_data[1] - TRACKPAD_WIDTH / 2;
+        x_deg = SERVO_MAX_DEGREE * ((float) x_deg / TRACKPAD_WIDTH * 2) * -1;
 
         ESP_LOGI(TAG, "x angle: %d", x_deg);
         
         ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(comparator, example_angle_to_compare(x_deg)));
-        vTaskDelay(pdMS_TO_TICKS(150));
+
+        ESP_LOGI(TAG, "%d", get_delay(x_deg, prev_x_deg));
+
+        /* task delay scales linearly with angular displacement;
+          makes movement smooth while preventing the motor from freezing 
+          due to a receiving a request while moving */
+        vTaskDelay( (TickType_t) pdMS_TO_TICKS(get_delay(x_deg, prev_x_deg)) );
         
     }
 }

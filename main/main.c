@@ -4,7 +4,7 @@
 
 void app_main(void)
 {
-    bt_cmd_queue = xQueueCreate(1, sizeof(size_t)); // sizeof(size_t) returns 32 (bytes) bc 32-bit architecture
+    bt_move_queue = xQueueCreate(1, sizeof(size_t)); // sizeof(size_t) returns 32 (bytes) bc 32-bit architecture
 
     bt_init();
 
