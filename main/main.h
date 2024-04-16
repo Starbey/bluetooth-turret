@@ -18,9 +18,6 @@
 #include "time.h"
 #include "sys/time.h"
 
-#define TRACKPAD_WIDTH                  250
-#define TRACKPAD_HEIGHT                 250
-
 QueueHandle_t bt_move_queue;
 
 TaskHandle_t servo_control_task;

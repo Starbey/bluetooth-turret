@@ -8,5 +8,5 @@ void app_main(void)
 
     bt_init();
 
-    configASSERT(xTaskCreatePinnedToCore(servo_control_task_handler, "Servo_Control_Task", 4096, NULL, 2, &servo_control_task, 0) == pdPASS);
+    configASSERT(xTaskCreatePinnedToCore(servo_move_task_handler, "Servo_Control_Task", 4096, NULL, 2, &servo_control_task, 0) == pdPASS);
 }

@@ -34,7 +34,8 @@
         "tuple": "c",
         "type_traits": "c",
         "variant": "c",
-        "freertos.h": "c"
+        "freertos.h": "c",
+        "esp_gap_bt_api.h": "c"
     },
     "idf.portWin": "COM4",
     "idf.flashType": "UART"
