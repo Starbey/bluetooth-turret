@@ -18,6 +18,32 @@
 #include "time.h"
 #include "sys/time.h"
 
-QueueHandle_t bt_move_queue;
+extern QueueHandle_t bt_move_queue;
 
-TaskHandle_t servo_control_task;
+extern TaskHandle_t servo_move_control_task;
+
+extern TaskHandle_t push_task;
+extern TaskHandle_t rev_task;
+
+/**
+ * Initializes bluetooth
+*/
+void bt_init(void);
+
+/**
+ * Servo move task moves the x and y servos after a bluetooth move command is received
+ * @param parameters not in use
+*/
+void servo_move_task_handler(void *parameters);
+
+/**
+ * Rev task starts and stops the flywheels
+ * @param parameters not in use
+*/
+void rev_task_handler(void *parameters);
+
+/**
+ * Push task moves the dart pusher servo to push a dart into the flywheels
+ * @param parameters not in use
+*/
+void push_task_handler(void *parameters);

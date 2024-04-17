@@ -1,7 +1,7 @@
 {
     "version":            "1.1",
     "project_name":       "bluetooth-turret",
-    "project_version":    "1",
+    "project_version":    "fef9e17c-dirty",
     "project_path":       "C:/vscode-esp32-workspace/bluetooth-turret",
     "idf_path":           "C:/Espressif/frameworks/esp-idf-v5.2.1",
     "build_dir":          "C:/vscode-esp32-workspace/bluetooth-turret/build",
@@ -805,7 +805,7 @@
             "managed_reqs": [],
             "managed_priv_reqs": [],
             "file": "C:/vscode-esp32-workspace/bluetooth-turret/build/esp-idf/main/libmain.a",
-            "sources": [ "C:/vscode-esp32-workspace/bluetooth-turret/main/bluetooth.c", "C:/vscode-esp32-workspace/bluetooth-turret/main/main.c", "C:/vscode-esp32-workspace/bluetooth-turret/main/servo_control.c" ],
+            "sources": [ "C:/vscode-esp32-workspace/bluetooth-turret/main/fire_control.c", "C:/vscode-esp32-workspace/bluetooth-turret/main/bluetooth.c", "C:/vscode-esp32-workspace/bluetooth-turret/main/main.c", "C:/vscode-esp32-workspace/bluetooth-turret/main/servo_control.c" ],
             "include_dirs": [ "." ]
         },
         "mbedtls": {

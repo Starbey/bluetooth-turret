@@ -1,3 +1,4 @@
+#include "main.h"
 
 #define SERVO_MIN_PULSEWIDTH_US         500  // Minimum pulse width in microsecond
 #define SERVO_MAX_PULSEWIDTH_US         2500  // Maximum pulse width in microsecond
@@ -16,10 +17,4 @@
 #define TRACKPAD_HEIGHT                 250 // trackpad height in pixels
 
 #define X_START_ANGLE                   0
-#define Y_START_ANGLE                   -45
-
-/**
- * Servo move task moves the x and y servos after a bluetooth move command is received
- * @param parameters not in use
-*/
-void servo_move_task_handler(void *parameters);
+#define Y_START_ANGLE                   45

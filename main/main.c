@@ -1,6 +1,10 @@
 #include "main.h"
-#include "bluetooth.c"
-#include "servo_control.c"
+
+QueueHandle_t bt_move_queue;
+
+TaskHandle_t servo_move_control_task;
+TaskHandle_t push_task;
+TaskHandle_t rev_task;
 
 void app_main(void)
 {
@@ -8,5 +12,7 @@ void app_main(void)
 
     bt_init();
 
-    configASSERT(xTaskCreatePinnedToCore(servo_move_task_handler, "Servo_Control_Task", 4096, NULL, 2, &servo_control_task, 0) == pdPASS);
+    configASSERT(xTaskCreatePinnedToCore(servo_move_task_handler, "Servo_Move_Control_Task", 4096, NULL, 2, &servo_move_control_task, 0) == pdPASS);
+    configASSERT(xTaskCreatePinnedToCore(push_task_handler, "Push_Task", 4096, NULL, 2, &push_task, 0) == pdPASS);
+    // configASSERT(xTaskCreatePinnedToCore(rev_task_handler, "Rev_Task", 4096, NULL, 2, &rev_task, 0) == pdPASS);
 }

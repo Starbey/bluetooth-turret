@@ -1,10 +1,3 @@
-/*
- * SPDX-FileCopyrightText: 2022-2023 Espressif Systems (Shanghai) CO LTD
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
-#include "main.h"
 #include "servo_control.h"
 
 static const char *TAG = "servo_control";
@@ -15,7 +8,7 @@ static inline uint32_t example_angle_to_compare(int angle)
 }
 
 static int get_delay(int deg, int prev_deg) {
-    return (int) ( (float) abs(deg - prev_deg) / 60  * 250 );
+    return (int) ( (float) abs(deg - prev_deg) / 60  * 200 );
 }
 
 void servo_move_task_handler(void *parameters)
@@ -113,9 +106,9 @@ void servo_move_task_handler(void *parameters)
 
         xQueueReceive(bt_move_queue, bt_data, portMAX_DELAY);
         x_deg = (int8_t) bt_data[1] - TRACKPAD_WIDTH / 2;
-        x_deg = SERVO_MAX_DEGREE * ((float) x_deg / TRACKPAD_WIDTH * 2) * -1;
+        x_deg = SERVO_MAX_DEGREE * ((float) x_deg / TRACKPAD_WIDTH * 2) * -1; // x-servo
 
-        y_deg = (int8_t) ((float) Y_SERVO_RANGE / TRACKPAD_HEIGHT * bt_data[0] * -1); // y-servo code
+        y_deg = (int8_t) ((float) Y_SERVO_RANGE / TRACKPAD_HEIGHT * bt_data[0]); // y-servo
 
         ESP_LOGI(TAG, "x: %d, y: %d", x_deg, y_deg);
         
