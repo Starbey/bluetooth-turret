@@ -44,7 +44,9 @@
         "span": "c",
         "bluetooth.h": "c",
         "esp_bt.h": "c",
-        "esp_bt_main.h": "c"
+        "esp_bt_main.h": "c",
+        "esp_spp_api.h": "c",
+        "gpio.h": "c"
     },
     "idf.portWin": "COM4",
     "idf.flashType": "UART"

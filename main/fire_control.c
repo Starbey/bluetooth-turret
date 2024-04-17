@@ -8,8 +8,28 @@ static inline uint32_t example_angle_to_compare(int angle)
 }
 
 void rev_task_handler(void *parameters){
+    gpio_config_t io_conf = {}; // init all fields to 0
+    io_conf.intr_type = GPIO_INTR_DISABLE;
+    io_conf.mode = GPIO_MODE_OUTPUT;
+    io_conf.pin_bit_mask = 1 << GPIO_PIN_NO;
+    io_conf.pull_down_en = 1;
+    io_conf.pull_up_en = 0;
+    gpio_config(&io_conf);
+
+    bool isRev = false;
+
     while(1){
-    
+        xTaskNotifyWait(0, 0, NULL, portMAX_DELAY);
+
+        if (isRev){
+            ESP_LOGI(TAG, "Motors on");
+            gpio_set_level(GPIO_PIN_NO, 0);
+        }
+        else {
+            ESP_LOGI(TAG, "Motors off");
+            gpio_set_level(GPIO_PIN_NO, 1);
+        }
+        isRev = !isRev;
     }
 }
 
@@ -64,6 +84,7 @@ void push_task_handler(void *parameters){
 
     while (1) {
         xTaskNotifyWait(0, 0, NULL, portMAX_DELAY);
+        ESP_LOGI(TAG, "Firing dart");
         
         ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(comparator, example_angle_to_compare(SERVO_END_ANGLE)));
         vTaskDelay(pdMS_TO_TICKS(700));

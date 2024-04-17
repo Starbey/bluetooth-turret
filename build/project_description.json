@@ -1,7 +1,7 @@
 {
     "version":            "1.1",
     "project_name":       "bluetooth-turret",
-    "project_version":    "fef9e17c-dirty",
+    "project_version":    "9bcf1bc3-dirty",
     "project_path":       "C:/vscode-esp32-workspace/bluetooth-turret",
     "idf_path":           "C:/Espressif/frameworks/esp-idf-v5.2.1",
     "build_dir":          "C:/vscode-esp32-workspace/bluetooth-turret/build",

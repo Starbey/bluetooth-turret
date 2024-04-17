@@ -14,6 +14,7 @@
 #include "esp_bt_device.h"
 #include "esp_spp_api.h"
 #include "driver/mcpwm_prelude.h"
+#include "driver/gpio.h"
 
 #include "time.h"
 #include "sys/time.h"

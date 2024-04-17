@@ -21,7 +21,7 @@ static char *bda2str(uint8_t * bda, char *str, size_t size)
     return str;
 }
 
-static void print_speed(void)
+static void print_speed(void) // for debugging
 {
     float time_old_s = time_old.tv_sec + time_old.tv_usec / 1000000.0;
     float time_new_s = time_new.tv_sec + time_new.tv_usec / 1000000.0;
@@ -81,7 +81,10 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param)
                  param->data_ind.len, param->data_ind.handle);
         if (param->data_ind.len < 128) {
             esp_log_buffer_hex("", param->data_ind.data, param->data_ind.len);
-            if (param->data_ind.data[0] == 255){
+            if (param->data_ind.data[0] == 254){
+                xTaskNotifyFromISR(rev_task, 0, eNoAction, NULL);
+            }
+            else if (param->data_ind.data[0] == 255){
                 xTaskNotifyFromISR(push_task, 0, eNoAction, NULL);
             }
             else{
