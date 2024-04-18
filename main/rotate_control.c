@@ -1,4 +1,4 @@
-#include "servo_control.h"
+#include "rotate_control.h"
 
 static const char *TAG = "servo_control";
 
@@ -11,7 +11,7 @@ static int get_delay(int deg, int prev_deg) {
     return (int) ( (float) abs(deg - prev_deg) / 60  * 200 );
 }
 
-void servo_move_task_handler(void *parameters)
+void rotate_task_handler(void *parameters)
 {
     ESP_LOGI(TAG, "Create timer and operator");
     mcpwm_timer_handle_t x_timer = NULL;

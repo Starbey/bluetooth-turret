@@ -1,2 +1,2 @@
-idf_component_register(SRCS "fire_control.c" "bluetooth.c" "main.c" "servo_control.c"
+idf_component_register(SRCS "rotate_control.c" "fire_control.c" "bluetooth.c" "main.c"
                     INCLUDE_DIRS ".")

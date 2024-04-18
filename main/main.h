@@ -21,7 +21,7 @@
 
 extern QueueHandle_t bt_move_queue;
 
-extern TaskHandle_t servo_move_control_task;
+extern TaskHandle_t rotate_task;
 
 extern TaskHandle_t push_task;
 extern TaskHandle_t rev_task;
@@ -35,7 +35,7 @@ void bt_init(void);
  * Servo move task moves the x and y servos after a bluetooth move command is received
  * @param parameters not in use
 */
-void servo_move_task_handler(void *parameters);
+void rotate_task_handler(void *parameters);
 
 /**
  * Rev task starts and stops the flywheels
