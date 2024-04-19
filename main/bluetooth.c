@@ -81,10 +81,10 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param)
                  param->data_ind.len, param->data_ind.handle);
         if (param->data_ind.len < 128) {
             esp_log_buffer_hex("", param->data_ind.data, param->data_ind.len);
-            if (param->data_ind.data[0] == 254){
+            if (param->data_ind.data[0] == REV_TASK_CODE){
                 xTaskNotifyFromISR(rev_task, 0, eNoAction, NULL);
             }
-            else if (param->data_ind.data[0] == 255){
+            else if (param->data_ind.data[0] == FIRE_TASK_CODE){
                 xTaskNotifyFromISR(push_task, 0, eNoAction, NULL);
             }
             else{
