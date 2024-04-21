@@ -12,4 +12,4 @@
 #define SERVO_START_ANGLE               90
 #define SERVO_END_ANGLE                 -90
 
-#define GPIO_PIN_NO                     2
+#define GPIO_PIN_NO                     25

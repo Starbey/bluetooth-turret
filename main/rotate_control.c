@@ -1,6 +1,6 @@
 #include "rotate_control.h"
 
-static const char *TAG = "servo_control";
+static const char *TAG = "rotate_control";
 
 static inline uint32_t example_angle_to_compare(int angle)
 {
@@ -108,7 +108,7 @@ void rotate_task_handler(void *parameters)
         x_deg = (int8_t) bt_data[1] - TRACKPAD_WIDTH / 2;
         x_deg = SERVO_MAX_DEGREE * ((float) x_deg / TRACKPAD_WIDTH * 2) * -1; // x-servo
 
-        y_deg = (int8_t) ((float) Y_SERVO_RANGE / TRACKPAD_HEIGHT * bt_data[0]); // y-servo
+        y_deg = (int8_t) ((float) Y_SERVO_RANGE / TRACKPAD_HEIGHT * bt_data[0] - 70); // y-servo
 
         ESP_LOGI(TAG, "x: %d, y: %d", x_deg, y_deg);
         

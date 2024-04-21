@@ -6,7 +6,7 @@
 #define SERVO_MAX_DEGREE                90    // Maximum angle
 
 #define X_SERVO_RANGE                   180
-#define Y_SERVO_RANGE                   90
+#define Y_SERVO_RANGE                   40
 
 #define X_SERVO_PULSE_GPIO              4        // GPIO connects to the PWM signal line
 #define Y_SERVO_PULSE_GPIO              5        // GPIO connects to the PWM signal line
@@ -17,4 +17,4 @@
 #define TRACKPAD_HEIGHT                 250 // trackpad height in pixels
 
 #define X_START_ANGLE                   0
-#define Y_START_ANGLE                   45
+#define Y_START_ANGLE                   -70
