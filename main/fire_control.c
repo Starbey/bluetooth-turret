@@ -11,7 +11,7 @@ void rev_task_handler(void *parameters){
     gpio_config_t io_conf = {}; // init all fields to 0
     io_conf.intr_type = GPIO_INTR_DISABLE;
     io_conf.mode = GPIO_MODE_OUTPUT;
-    io_conf.pin_bit_mask = 1 << GPIO_PIN_NO;
+    io_conf.pin_bit_mask = 1 << DC_GPIO_PIN_NO;
     io_conf.pull_down_en = 1;
     io_conf.pull_up_en = 0;
     gpio_config(&io_conf);
@@ -23,11 +23,11 @@ void rev_task_handler(void *parameters){
 
         if (isRev){
             ESP_LOGI(TAG, "Motors on");
-            gpio_set_level(GPIO_PIN_NO, 0);
+            gpio_set_level(DC_GPIO_PIN_NO, 0);
         }
         else {
             ESP_LOGI(TAG, "Motors off");
-            gpio_set_level(GPIO_PIN_NO, 1);
+            gpio_set_level(DC_GPIO_PIN_NO, 1);
         }
         isRev = !isRev;
     }
@@ -63,7 +63,7 @@ void push_task_handler(void *parameters){
 
     mcpwm_gen_handle_t generator = NULL;
     mcpwm_generator_config_t generator_config = {
-        .gen_gpio_num = SERVO_PULSE_GPIO,
+        .gen_gpio_num = PUSH_GPIO_PIN_NO,
     };
     ESP_ERROR_CHECK(mcpwm_new_generator(oper, &generator_config, &generator));
 
@@ -87,7 +87,7 @@ void push_task_handler(void *parameters){
         ESP_LOGI(TAG, "Firing dart");
         
         ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(comparator, example_angle_to_compare(SERVO_END_ANGLE)));
-        vTaskDelay(pdMS_TO_TICKS(700));
+        vTaskDelay(pdMS_TO_TICKS(2000));
         ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(comparator, example_angle_to_compare(SERVO_START_ANGLE)));
         vTaskDelay(pdMS_TO_TICKS(700));    
     }   

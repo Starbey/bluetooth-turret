@@ -6,6 +6,8 @@ TaskHandle_t rotate_task;
 TaskHandle_t push_task;
 TaskHandle_t rev_task;
 
+const char TAG[] = "main";
+
 void app_main(void)
 {
     bt_move_queue = xQueueCreate(1, sizeof(size_t)); // sizeof(size_t) returns 32 (bytes) bc 32-bit architecture
